@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - '8080:80'
+    depends_on:
+      - node
+    networks:
+      - default-network
+
+  node:
+    container_name: node
+    restart: always
+    build:
+      context: ./node
+    depends_on:
+      - db
+    networks:
+      - default-network
+
+  db:
+    build:
+      context: ./mysql
+    container_name: db
+    restart: always
+    tty: true
+    networks:
+      - default-network
+    volumes:
+      - ./mysql/volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'pass'
+      MYSQL_ROOT_HOST: 'db'
+      MYSQL_DATABASE: 'full_db'
+      MYSQL_PASSWORD: 'pass'
+      MYSQL_USER: 'user'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+networks:
+  default-network:
+    driver: bridge
