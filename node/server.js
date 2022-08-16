@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   connection.query(`SELECT nome FROM people`, (error, results, fields) => {
     console.log(results, fields, error)
     res.send(`
-      <h1>Full cycle Rocks! Course FullCycle.</h1>
+      <h1>Full cycle Rocks! Course FullCycle - Run refresh F5.</h1>
       <ul>
         ${results.map(result => `<li>${result.nome}</li>`).join('')}
       </ul>
